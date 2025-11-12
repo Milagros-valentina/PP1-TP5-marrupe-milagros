@@ -1,0 +1,99 @@
+// --- CONFIGURACIÓN INICIAL ---
+    Definir lista_de_palabras = ["perro", "carta", "flaco", "plaza", "noche", "casas", "banco", "verde"]
+    Elegir palabra_secreta al azar de lista_de_palabras
+    Definir max_intentos = 6
+    Definir intentos = 0
+
+    Obtener referencias a los elementos del HTML:
+        tablero, mensaje, entrada, teclado
+
+    Crear un botón "Jugar otra vez" (boton_reiniciar)
+    Ocultar el botón al inicio
+
+    // --- CREAR TABLERO Y TECLADO ---
+    Función CREAR_TABLERO:
+        Vaciar el tablero
+        Repetir (max_intentos * 5) veces:
+            Crear una celda vacía (div)
+            Agregar la clase "letra"
+            Añadir la celda al tablero
+
+    Función CREAR_TECLADO:
+        Vaciar el teclado
+        Para cada letra del abecedario:
+            Crear un botón con esa letra
+            Agregar la clase "tecla"
+            Añadir el botón al teclado
+
+    Ejecutar CREAR_TABLERO()
+    Ejecutar CREAR_TECLADO()
+
+    // --- ACTUALIZAR ESTADO DEL TECLADO ---
+    Función ACTUALIZAR_TECLADO(letra, estado):
+        Para cada botón del teclado:
+            Si el texto del botón coincide con la letra:
+                Quitar clases anteriores (correcta, presente, incorrecta)
+                Agregar la clase correspondiente según el estado
+
+    // --- PROCESAR INTENTO ---
+    Cuando el usuario hace clic en el botón "Probar":
+        Leer intento = texto en el campo de entrada (en minúsculas)
+
+        Si la palabra no tiene 5 letras:
+            Mostrar mensaje "La palabra debe tener 5 letras"
+            SALIR
+
+        Si contiene caracteres no válidos (números o símbolos):
+            Mostrar mensaje "Solo se permite ingresar letras"
+            SALIR
+
+        Limpiar mensaje anterior
+        Calcular posición = intentos * 5
+
+        Para i desde 0 hasta 4:
+            celda = tablero[posición + i]
+            Mostrar la letra del intento en la celda
+
+            Si la letra está en la misma posición que en palabra_secreta:
+                Marcar celda como "correcta"
+                Actualizar teclado con estado "correcta"
+
+            Sino, si la letra está en palabra_secreta:
+                Marcar celda como "presente"
+                Actualizar teclado con estado "presente"
+
+            Sino:
+                Marcar celda como "incorrecta"
+                Actualizar teclado con estado "incorrecta"
+
+        Incrementar intentos
+
+        Si intento es igual a palabra_secreta:
+            Mostrar "¡Felicidades! Adivinaste la palabra."
+            Deshabilitar entrada
+            Mostrar botón de reinicio
+            SALIR
+
+        Si intentos es igual a max_intentos:
+            Mostrar "Perdiste. La palabra era: ..." 
+            Deshabilitar entrada
+            Mostrar botón de reinicio
+
+        Vaciar campo de entrada
+        Poner el cursor nuevamente en la entrada
+
+    // --- REINICIAR EL JUEGO ---
+    Función MOSTRAR_BOTON_REINICIAR:
+        Mostrar el botón en pantalla
+
+    Función REINICIAR_JUEGO:
+        Elegir nueva palabra_secreta al azar
+        Reiniciar intentos = 0
+        Habilitar entrada
+        Limpiar tablero, teclado y mensaje
+        Ocultar botón de reinicio
+
+    Cuando se hace clic en el botón "Jugar otra vez":
+        Llamar a REINICIAR_JUEGO()
+
+FIN DEL PROGRAMA
